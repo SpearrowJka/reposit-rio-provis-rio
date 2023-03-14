@@ -1,0 +1,58 @@
+import 'dart:math';
+
+class Item {
+  String nome;
+  double preco;
+
+  Item(this.nome, this.preco);
+}
+
+class Itens {
+  List<Item> itens;
+
+  Itens() {
+    itens = [
+      Item("Água", 3),
+      Item("Chocolate", 4),
+      Item("Suco", 5)
+    ];
+  }
+
+  Item buscarItem(String nome) {
+    return itens.firstWhere((item) => item.nome == nome, orElse: () => null);
+  }
+}
+
+class Vendas {
+  Itens estoque;
+  List<Item> itensVendidos;
+  double total;
+
+  Vendas() {
+    estoque = Itens();
+    itensVendidos = [];
+    total = 0;
+  }
+
+  void venderItem(String nome) {
+    Item item = estoque.buscarItem(nome);
+
+    if (item != null) {
+      itensVendidos.add(item);
+      total += item.preco;
+    }
+  }
+}
+
+void main() {
+  Vendas vendas = Vendas();
+
+  vendas.venderItem("Água");
+  vendas.venderItem("Suco");
+  vendas.venderItem("Café");
+
+  print("Itens vendidos:");
+  vendas.itensVendidos.forEach((item) => print("${item.nome} - R\$${item.preco.toStringAsFixed(2)}"));
+
+  print("Total: R\$${vendas.total.toStringAsFixed(2)}");
+}
